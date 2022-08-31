@@ -8,14 +8,36 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var network: Network
+    private var threeColumnGrid = [GridItem(.flexible()), GridItem(.flexible())]
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        
+        
+        TabView {
+                HomePage()
+                    .tabItem {
+                        Image(systemName: "house.fill")
+                        Text("Home")
+                }
+                Profile()
+                    .tabItem {
+                        Image(systemName: "person.fill")
+                        Text("Profile")
+                }
+                Search()
+                    .tabItem {
+                        Image(systemName: "magnifyingglass.circle.fill")
+                        Text("Search")
+                }
+            }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(Network())
+            .previewDevice("iPhone 13")
     }
 }
