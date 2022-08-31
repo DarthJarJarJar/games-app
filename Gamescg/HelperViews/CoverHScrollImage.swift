@@ -2,7 +2,7 @@
 //  CoverImage.swift
 //  Gamescg
 //
-//  Created by Ayaan Shahab on 2022-08-29.
+//  Created by Ayaan  on 2022-08-29.
 //
 
 import SwiftUI
