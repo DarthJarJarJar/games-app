@@ -1,54 +1,65 @@
-//
-//  ContentView.swift
-//  Gamescg
-//
-//  Created by Ayaan  on 2022-08-26.
-//
-
 import SwiftUI
-
-struct Proto: View {
-    @EnvironmentObject var network: Network
-    private var threeColumnGrid = [GridItem(.fixed(150)), GridItem(.fixed(150))]
-    @State private var showSheet = false
+struct CircularProgressView: View {
+    let progress: Float
     
     var body: some View {
-        
-        NavigationView {
-            
-            ScrollView {
-                LazyVGrid(columns: threeColumnGrid){
-                ForEach(network.users) { user in
-                
-               
-                    CoverImage(imageId: user.cover.image_id)
-                        .onTapGesture {
-                            showSheet.toggle()
-                        }
-                    
-                        .sheet(isPresented: $showSheet) {
-                            GameModal()
-                               
-                        }
-                    
-                
-                
-              
-            }
-            .navigationTitle("Popular Games")
-                    .padding()} .padding()
-            }
-        }
-        .onAppear {
-            network.getUsers()
+        ZStack {
+            Circle()
+                .stroke(
+                    Color.pink.opacity(0.5),
+                    lineWidth: 30
+                )
+            Circle()
+                .trim(from: 0, to: CGFloat(progress))
+                .stroke(
+                    Color.pink,
+                    style: StrokeStyle(
+                        lineWidth: 30,
+                        lineCap: .round
+                    )
+                )
+                .rotationEffect(.degrees(-90))
+                // 1
+                .animation(.easeOut, value: progress)
+
         }
     }
 }
 
+struct Proto: View {
+    // 1
+    @State var progress: Double = 0
+    
+    var body: some View {
+        VStack {
+            Spacer()
+            ZStack {
+                // 2
+                CircularProgressView(progress: Float(progress))
+                // 3
+                Text("\(progress * 100, specifier: "%.0f")")
+                    .font(.largeTitle)
+                    .bold()
+            }.frame(width: 200, height: 200)
+            Spacer()
+            HStack {
+                // 4
+                Slider(value: $progress, in: 0...1)
+                // 5
+                Button("Reset") {
+                    resetProgress()
+                }.buttonStyle(.borderedProminent)
+            }
+        }
+    }
+    
+    func resetProgress() {
+        progress = 0
+    }
+}
 struct Proto_Previews: PreviewProvider {
     static var previews: some View {
         Proto()
-            .environmentObject(Network())
-            .previewDevice("iPhone 13")
     }
 }
+

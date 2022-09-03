@@ -7,12 +7,46 @@
 
 import SwiftUI
 import WrappingHStack
+import FirebaseFirestore
 
 
 struct GameProto: View {
-    @EnvironmentObject var network: Network
+    @EnvironmentObject var UserData: UserData
     @State var id: Int
     @State var game: [Game] = []
+    @State var reviews: [Review] = []
+    @State private var showSheet = false
+    
+    
+    
+    func getReviewsOfGame() {
+        var dictHolder: [Dictionary<String, Any>] = []
+        var reviews: [Review] = []
+        let db = Firestore.firestore()
+        db.collection("games").whereField("gameId", isEqualTo: id)
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        dictHolder.append(document.data())
+                        
+                    }
+                }
+                
+                for review in dictHolder {
+                    if review["review"] as! String != "" {
+                    reviews.append(Review(gameId: review["gameId"] as? Int, gameName: review["gameName"] as? String, rating: review["rating"] as? Int, review: review["review"] as? String, reviewAt: review["reviewAt"] as! Int, reviewBy: review["reviewBy"] as? String, reviewerName: review["reviewerName"] as? String, spoiler: review["spoiler"] as! Bool))
+                    }
+                    }
+                print("added data")
+                print(reviews)
+                self.reviews = reviews
+    
+            }
+            
+        
+    }
     
     func getGameById() {
         guard let url = URL(string: "https://api.igdb.com/v4/games/") else { fatalError("Missing URL") }
@@ -38,7 +72,6 @@ struct GameProto: View {
                     do {
                         let decodedUsers = try JSONDecoder().decode([Game].self, from: data)
                         self.game = decodedUsers
-                        print(decodedUsers)
                     } catch let error {
                         print("Error decoding: ", error)
                     }
@@ -64,18 +97,11 @@ struct GameProto: View {
                             }
                             withAnimation(.default) {
                                 VStack {
-                                    VStack{
-                                        Text(game.name)
-                                            .bold()
-                                            .animation(.easeInOut)
-                                            .font(.largeTitle)
-                                            .offset(x: 0, y: -20)
-                                            .padding()
+                                 
+
+                                    GameTitleView(game: game, signedIn: UserData.isLoggedIn, inFav: UserData.checkGameInArray(id: game.id, array: UserData.FavoriteGames), inBack: UserData.checkGameInArray(id: game.id, array: UserData.BacklogGames))
                                         
-                                        
-                                        CompaniesList(companies: game.involved_companies)
-                                    }
-                                    Text(game.summary)
+                                        Text(game.summary)
                                         .padding(20)
                                         .padding(.top, 0)
                                     Spacer()
@@ -83,23 +109,24 @@ struct GameProto: View {
                                     Text("Screenshots")
                                         .bold()
                                         .font(.title2)
+                                        .frame(alignment: .leading)
                                     
                                     Screenshots(screenshots: game.screenshots)
                                     Spacer()
                                     
                                     WrappingHStack(game.platforms) { platform in
                                         
-                                            Text(platform.abbreviation)
-                                                .bold()
-                                                .foregroundColor(.white)
-                                                .font(.caption)
-                                                .padding()
-                                                .background(.blue)
-                                                .cornerRadius(40.0)
-                                                .padding(1)
-                                                .padding(.bottom, 8)
-                                            
-
+                                        Text(platform.abbreviation)
+                                            .bold()
+                                            .foregroundColor(.white)
+                                            .font(.caption)
+                                            .padding()
+                                            .background(.blue)
+                                            .cornerRadius(20.0)
+                                            .padding(1)
+                                            .padding(.bottom, 8)
+                                        
+                                        
                                     }
                                     
                                     .padding(8)
@@ -107,25 +134,33 @@ struct GameProto: View {
                                     
                                     WrappingHStack(game.genres) { genre in
                                         
-                                            Text(genre.name)
-                                                .bold()
-                                                .foregroundColor(.white)
-                                                .font(.caption)
-                                                .padding()
-                                                .background(.red)
-                                                .cornerRadius(40.0)
-                                                .padding(1)
-                                                .padding(.bottom, 8)
-                                            
-
+                                        Text(genre.name)
+                                            .bold()
+                                            .foregroundColor(.white)
+                                            .font(.caption)
+                                            .padding()
+                                            .background(.red)
+                                            .cornerRadius(20.0)
+                                            .padding(1)
+                                            .padding(.bottom, 8)
+                                        
+                                        
                                     }
                                     
                                     .padding(8)
-                                   
+                                    
+                                    if UserData.isLoggedIn {
+                                        ForEach(reviews) { review in
+                                            Text(review.review ?? "nothing")
+                                        }
+                                    }
                                     
                                     
-                                   
-                                   
+                                    
+                                    
+                                    
+                                    
+                                    
                                     
                                     
                                 }
@@ -137,7 +172,7 @@ struct GameProto: View {
                         }
                         
                         .navigationTitle(game.name)
-                    .navigationBarTitleDisplayMode(.inline)
+                        .navigationBarTitleDisplayMode(.inline)
                     }
                     
                     
@@ -150,21 +185,25 @@ struct GameProto: View {
                     ProgressView()
                         .padding(400)
                 }
-                    
+                
             }
             
         }
         .onAppear {
             getGameById()
+            getReviewsOfGame()
         }
         
     }
 }
 
+
+
+
 struct GameProto_Previews: PreviewProvider {
     static var previews: some View {
         GameProto(id: 119133)
-            .environmentObject(Network())
+            .environmentObject(UserData())
             .previewDevice("iPhone 13 Pro Max")
     }
 }

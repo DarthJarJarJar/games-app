@@ -25,7 +25,9 @@ struct GamescgApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(UserData())
                 .environmentObject(network)
+                
             
         }
     }

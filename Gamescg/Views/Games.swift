@@ -1,16 +1,25 @@
 //
-//  Backlog.swift
+//  Games.swift
 //  Gamescg
 //
-//  Created by Ayaan  on 2022-08-30.
+//  Created by Ayaan  on 2022-08-31.
 //
 
 import SwiftUI
 
-struct Backlog: View {
-    @State var BacklogGames: [Game]
+struct Games: View {
+    @State var Ratings: [Dictionary<String, Int>]
+    @State var RatedGames: [Game]
     var threeColumnGrid = [GridItem(.flexible()), GridItem(.flexible())]
-    
+    func getRatingOfGame(id: Int, ratings: [Dictionary<String, Int>]) -> Int {
+        var final: Int = 0
+        for rating in ratings {
+            if rating["id"] == id {
+                final = rating["rating"] ?? 0
+            }
+        }
+        return final
+    }
     var body: some View {
         
         
@@ -20,16 +29,16 @@ struct Backlog: View {
             ScrollView {
                 withAnimation(.easeOut) {
                     LazyVGrid(columns: threeColumnGrid){
-                        ForEach(BacklogGames) { user in
+                        ForEach(RatedGames) { game in
                             
                             withAnimation(.linear) {
                                 NavigationLink {
                                     withAnimation(.spring()) {
-                                        GameProto(id: user.id)
+                                        GameProto(id: game.id)
                                     }
                                     
                                 } label: {
-                                    CoverImage(imageId: user.cover.image_id)
+                                    RatedGameCover(width: 150, image_id: game.cover.image_id, rating: getRatingOfGame(id: game.id, ratings: Ratings))
                                     
                                 }
                             }
@@ -39,11 +48,12 @@ struct Backlog: View {
                     } .padding()
                 }
             }
-            .navigationTitle("Backlog")
+            .navigationTitle("Games")
             
             
         
 
     }
 }
+
 

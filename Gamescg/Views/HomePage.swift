@@ -11,14 +11,10 @@ import FirebaseFirestore
 
 struct HomePage: View {
     @EnvironmentObject var network: Network
+    @EnvironmentObject var UserData: UserData
     private var threeColumnGrid = [GridItem(.flexible()), GridItem(.flexible())]
-    @State var fontSize: Int = 0
-    @State var bold: Bool = false
-    @State var italic: Bool = false
     @State private var showSheet = false
     @State var uid = "no user"
-    @State var username = ""
-    let db = Firestore.firestore()
     
     var body: some View {
         
@@ -50,8 +46,8 @@ struct HomePage: View {
                                 
                                 HStack(spacing: 8) {
                                     
-                                    if username != "" {
-                                        Text("Logged in as \(username)")
+                                    if UserData.isLoggedIn {
+                                        Text("Logged in as \(UserData.Username)")
                                             .bold()
                                         
                                             .font(.subheadline)
@@ -97,20 +93,7 @@ struct HomePage: View {
         }
         .onAppear {
             uid = Auth.auth().currentUser?.uid ?? "no user"
-            if uid != "no user" {
-                db.collection("users").whereField("uid", isEqualTo: uid)
-                    .getDocuments() { (querySnapshot, err) in
-                        if let err = err {
-                            print("Error getting documents: \(err)")
-                        } else {
-                            for document in querySnapshot!.documents {
-                                username = document.data()["displayName"] as! String
-                            }
-                        }
-                    }
-            } else {
-                username = ""
-            }
+            UserData.getUserName(uid: uid)
             network.getUsers()
         }
         
@@ -122,6 +105,7 @@ struct HomePage_Previews: PreviewProvider {
     static var previews: some View {
         HomePage()
             .environmentObject(Network())
+            .environmentObject(UserData())
             .previewDevice("iPhone 13")
     }
 }

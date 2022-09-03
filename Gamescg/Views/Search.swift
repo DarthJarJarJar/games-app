@@ -37,7 +37,6 @@ struct Search: View {
                     do {
                         let decodedUsers = try JSONDecoder().decode([SearchedGame].self, from: data)
                         self.games = decodedUsers
-                        print(decodedUsers)
                     } catch let error {
                         print("Error decoding: ", error)
                     }

@@ -10,6 +10,7 @@ import SwiftUI
 class Network: ObservableObject {
     @Published var users: [User] = []
     @Published var game: [User] = []
+    
 
     func getUsers() {
         guard let url = URL(string: "https://api.igdb.com/v4/games/") else { fatalError("Missing URL") }
