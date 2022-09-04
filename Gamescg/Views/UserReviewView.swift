@@ -26,7 +26,7 @@ struct UserReviewView: View {
                             .font(.title3)
                             .bold()
                         HStack(spacing: 2) {
-                            ForEach(1..<((rev.rating ?? 2)+1 ?? 2)) {i in
+                            ForEach(1..<((rev.rating ?? 2)+1 )) {i in
                                 Image(systemName: "star.fill")
                                     .resizable()
                                     .frame(width: 15, height: 15)

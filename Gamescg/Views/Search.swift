@@ -52,9 +52,10 @@ struct Search: View {
             NavigationLink{
                 SearchSearch(key: searchText)
             } label: {
-                Text(" Search for \(searchText)")
+                Text("Tap to search for \(searchText)")
                     .navigationTitle("Search")
                     .searchable(text: $searchText)
+                   
                     
             }
             

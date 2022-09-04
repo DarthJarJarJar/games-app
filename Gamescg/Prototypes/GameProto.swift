@@ -19,6 +19,7 @@ struct GameProto: View {
     
     
     
+    
     func getReviewsOfGame() {
         var dictHolder: [Dictionary<String, Any>] = []
         var reviews: [Review] = []
@@ -149,11 +150,16 @@ struct GameProto: View {
                                     
                                     .padding(8)
                                     
-                                    if UserData.isLoggedIn {
-                                        ForEach(reviews) { review in
-                                            Text(review.review ?? "nothing")
-                                        }
-                                    }
+                                    
+                           
+                                    
+                                    Text("User Reviews")
+                                        .bold()
+                                        .font(.title2)
+                                        .frame(alignment: .leading)
+                                        .padding(.top, 20)
+                                        GameReviews(reviews: reviews)
+                                    
                                     
                                     
                                     

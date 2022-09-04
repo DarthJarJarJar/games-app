@@ -14,7 +14,7 @@ struct ReviewText: View {
     var body: some View {
         ZStack(alignment: .leading) {
             if spoiler {
-                withAnimation(.easeInOut(duration: 0.3)) {
+                withAnimation(.easeInOut(duration: 0.1)) {
                 RoundedRectangle(cornerRadius: 3)
                         .foregroundColor(.gray)
                     .opacity(showSpoiler ? 0.3 : 1.0)

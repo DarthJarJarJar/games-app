@@ -16,6 +16,7 @@ struct GameUserActions: View {
     @State var justRemoved: Bool = false
     @State var inFav: Bool
     @State var inBack: Bool
+    @State var rating: Int = 0
     
     
     var body: some View {
@@ -156,9 +157,18 @@ struct GameUserActions: View {
                     }
                     
                     
+                  
+                    
+                    
                 }
                 .padding(30)
+                
+                
             }
+            StarRating(rating: $rating, label: String(rating), maximumRating: 10)
+            
+            
+            
             
             
             Spacer()
