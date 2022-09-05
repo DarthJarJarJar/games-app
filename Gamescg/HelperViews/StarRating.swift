@@ -9,7 +9,7 @@ import SwiftUI
 
 struct StarRating: View {
     @Binding var rating: Int
-
+    var disabled = false
     var label = ""
 
     var maximumRating = 5
@@ -39,7 +39,10 @@ struct StarRating: View {
                     .foregroundColor(number > rating ? offColor : onColor)
                     .frame(width: 30, height: 30)
                     .onTapGesture {
-                        rating = number
+                        if !disabled {
+                            rating = number
+                        }
+                        
                     }
             }
             
