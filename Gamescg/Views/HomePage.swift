@@ -47,10 +47,6 @@ struct HomePage: View {
                                 HStack(spacing: 8) {
                                     
                                     if UserData.isLoggedIn {
-                                        Text("Logged in as \(UserData.Username)")
-                                            .bold()
-                                        
-                                            .font(.subheadline)
                                         
                                         
                                         Image(systemName: "checkmark.seal.fill")

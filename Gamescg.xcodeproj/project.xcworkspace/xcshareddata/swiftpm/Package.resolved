@@ -113,8 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lorenzofiamingo/swiftui-cached-async-image",
       "state" : {
-        "revision" : "467a3d17479887943ab917a379e62bbaff60ac8a",
-        "version" : "2.1.1"
+        "branch" : "main",
+        "revision" : "f94be38411297c71aa8df69c6875127e6d8d7a92"
       }
     },
     {
@@ -122,8 +122,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/dkk/WrappingHStack",
       "state" : {
-        "revision" : "f568b78357a26f740998306f156d1ef97b6b9680",
-        "version" : "2.2.1"
+        "branch" : "main",
+        "revision" : "52eaad02c6a621b9bb5cd56acde94f802ef669f0"
       }
     }
   ],

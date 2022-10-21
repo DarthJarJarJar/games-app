@@ -253,6 +253,9 @@ struct GameUserActions: View {
             
             StarRating(rating: $rating , disabled: UserData.getRatingOfGame(id: name.id) != 0 , maximumRating: 10)
                 .padding()
+                .onAppear {
+                    rating = UserData.getRatingOfGame(id: name.id  )
+                }
             
             Toggle(isOn: $includeReview) {
                 Text("Include a review?")

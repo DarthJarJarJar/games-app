@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		3500099228C4EF7A00A5AE8A /* StarRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3500099128C4EF7A00A5AE8A /* StarRating.swift */; };
 		350D4D8428C23FBC00D5930C /* GameTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350D4D8328C23FBC00D5930C /* GameTitleView.swift */; };
+		351874E52902FB7E00DABBB1 /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = 351874E42902FB7E00DABBB1 /* WrappingHStack */; };
+		351874E82902FBCC00DABBB1 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 351874E72902FBCC00DABBB1 /* FirebaseAnalytics */; };
+		351874EA2902FBCC00DABBB1 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 351874E92902FBCC00DABBB1 /* FirebaseAuth */; };
+		351874EC2902FBCC00DABBB1 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 351874EB2902FBCC00DABBB1 /* FirebaseFirestore */; };
+		351874EF2902FC3100DABBB1 /* CachedAsyncImage in Frameworks */ = {isa = PBXBuildFile; productRef = 351874EE2902FC3100DABBB1 /* CachedAsyncImage */; };
+		351874F22902FC5C00DABBB1 /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = 351874F12902FC5C00DABBB1 /* WrappingHStack */; };
 		351B229428BEBF5A0014610A /* CoverHScrollImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351B229328BEBF590014610A /* CoverHScrollImage.swift */; };
 		351B229628BED71B0014610A /* Backlog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351B229528BED71B0014610A /* Backlog.swift */; };
 		3526054F28BAD8F5005A368F /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3526054E28BAD8F5005A368F /* Game.swift */; };
@@ -95,11 +101,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				351874E82902FBCC00DABBB1 /* FirebaseAnalytics in Frameworks */,
+				351874EF2902FC3100DABBB1 /* CachedAsyncImage in Frameworks */,
 				3564E37528BD0522006AE28F /* WrappingHStack in Frameworks */,
 				354A318128BE69150021816F /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				3582C86B28BDC0C300C50775 /* CachedAsyncImage in Frameworks */,
+				351874F22902FC5C00DABBB1 /* WrappingHStack in Frameworks */,
 				354A318528BE69150021816F /* FirebaseFirestore in Frameworks */,
+				351874EC2902FBCC00DABBB1 /* FirebaseFirestore in Frameworks */,
+				351874E52902FB7E00DABBB1 /* WrappingHStack in Frameworks */,
 				354A318328BE69150021816F /* FirebaseAuth in Frameworks */,
+				351874EA2902FBCC00DABBB1 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,6 +239,12 @@
 				354A318028BE69150021816F /* FirebaseAnalyticsWithoutAdIdSupport */,
 				354A318228BE69150021816F /* FirebaseAuth */,
 				354A318428BE69150021816F /* FirebaseFirestore */,
+				351874E42902FB7E00DABBB1 /* WrappingHStack */,
+				351874E72902FBCC00DABBB1 /* FirebaseAnalytics */,
+				351874E92902FBCC00DABBB1 /* FirebaseAuth */,
+				351874EB2902FBCC00DABBB1 /* FirebaseFirestore */,
+				351874EE2902FC3100DABBB1 /* CachedAsyncImage */,
+				351874F12902FC5C00DABBB1 /* WrappingHStack */,
 			);
 			productName = Gamescg;
 			productReference = 35BAC16828B95AA30009C457 /* Gamescg.app */;
@@ -260,6 +278,10 @@
 				3564E37328BD0522006AE28F /* XCRemoteSwiftPackageReference "WrappingHStack" */,
 				3582C86928BDC0C300C50775 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */,
 				354A317F28BE69150021816F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				351874E32902FB7E00DABBB1 /* XCRemoteSwiftPackageReference "WrappingHStack" */,
+				351874E62902FBCC00DABBB1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				351874ED2902FC3100DABBB1 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */,
+				351874F02902FC5C00DABBB1 /* XCRemoteSwiftPackageReference "WrappingHStack" */,
 			);
 			productRefGroup = 35BAC16928B95AA30009C457 /* Products */;
 			projectDirPath = "";
@@ -525,6 +547,38 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		351874E32902FB7E00DABBB1 /* XCRemoteSwiftPackageReference "WrappingHStack" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dkk/WrappingHStack";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		351874E62902FBCC00DABBB1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		351874ED2902FC3100DABBB1 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lorenzofiamingo/swiftui-cached-async-image";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		351874F02902FC5C00DABBB1 /* XCRemoteSwiftPackageReference "WrappingHStack" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dkk/WrappingHStack";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		354A317F28BE69150021816F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -552,6 +606,36 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		351874E42902FB7E00DABBB1 /* WrappingHStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 351874E32902FB7E00DABBB1 /* XCRemoteSwiftPackageReference "WrappingHStack" */;
+			productName = WrappingHStack;
+		};
+		351874E72902FBCC00DABBB1 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 354A317F28BE69150021816F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		351874E92902FBCC00DABBB1 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 354A317F28BE69150021816F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		351874EB2902FBCC00DABBB1 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 354A317F28BE69150021816F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		351874EE2902FC3100DABBB1 /* CachedAsyncImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 351874ED2902FC3100DABBB1 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */;
+			productName = CachedAsyncImage;
+		};
+		351874F12902FC5C00DABBB1 /* WrappingHStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3564E37328BD0522006AE28F /* XCRemoteSwiftPackageReference "WrappingHStack" */;
+			productName = WrappingHStack;
+		};
 		354A318028BE69150021816F /* FirebaseAnalyticsWithoutAdIdSupport */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 354A317F28BE69150021816F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

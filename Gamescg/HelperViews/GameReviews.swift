@@ -2,7 +2,7 @@
 //  GameReviews.swift
 //  Gamescg
 //
-//  Created by Ayaan Shahab on 2022-09-03.
+//  Created by Ayaan on 2022-09-03.
 //
 
 import SwiftUI

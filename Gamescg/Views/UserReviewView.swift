@@ -22,9 +22,14 @@ struct UserReviewView: View {
                     
                     
                     VStack(alignment: .leading) {
-                        Text(rev.gameName ?? "nO name")
-                            .font(.title3)
-                            .bold()
+                        
+                        NavigationLink {
+                            GameProto(id: rev.gameId ?? 0)
+                        } label : {
+                            Text(rev.gameName ?? "no name")
+                                .font(.title3)
+                                .bold()
+                        }
                         HStack(spacing: 2) {
                             ForEach(1..<((rev.rating ?? 2)+1 )) {i in
                                 Image(systemName: "star.fill")
