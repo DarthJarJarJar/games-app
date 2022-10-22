@@ -10,6 +10,8 @@ import SwiftUI
 struct CoverImage: View {
     @State var imageId: String
     @Namespace var namespace
+    
+    
     var body: some View {
         AsyncImage(url: URL(string: "https://images.igdb.com/igdb/image/upload/t_cover_big/\(imageId).jpg")) { phase in
             switch phase {
