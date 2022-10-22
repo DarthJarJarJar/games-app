@@ -22,7 +22,7 @@ struct GameModal: View {
                if error != nil {
                    print(error?.localizedDescription ?? "")
                } else {
-                   print("success")
+                   print("SUCCESS")
                }
            }
        
