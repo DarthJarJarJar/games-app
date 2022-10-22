@@ -293,7 +293,7 @@ struct GameUserActions: View {
                     .cornerRadius(10)
                     .frame(width: 300, height: 200)
         
-                    .cornerRadius(9)
+                    .cornerRadius(10)
                     .padding()
                     .onAppear {
                         UITextView.appearance().backgroundColor = .clear
