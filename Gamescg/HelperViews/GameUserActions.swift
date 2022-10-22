@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import FirebaseFirestore
 
 struct GameUserActions: View {
     
@@ -20,6 +21,25 @@ struct GameUserActions: View {
     @State var rating: Int = 0
     @State var includeReview: Bool = false
     @State var newReviewText: String = "Write your review..."
+    @State var reviewed: Bool = false
+    
+    func getUserReview() {
+        let db = Firestore.firestore()
+        let docRef = db.collection("games").document(String(name.id)+UserData.Username)
+
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data()
+                reviewed = true
+                includeReview = true
+                newReviewText = dataDescription?["review"] as! String
+                rating = dataDescription?["rating"] as! Int
+            } else {
+                print("Document does not exist")
+            }
+        }
+
+    }
     
     
     var body: some View {
@@ -63,7 +83,7 @@ struct GameUserActions: View {
                                             .offset(x: 8, y: 8)
                                     }
                                         
-                                    Text("You arleady have 4 games in favorites")
+                                    Text("You already have 4 games in favorites")
                                         .foregroundColor(.white)
                                         .bold()
                                         .font(.system(size: 10))
@@ -255,6 +275,7 @@ struct GameUserActions: View {
                 .padding()
                 .onAppear {
                     rating = UserData.getRatingOfGame(id: name.id  )
+                    getUserReview()
                 }
             
             Toggle(isOn: $includeReview) {
@@ -278,7 +299,10 @@ struct GameUserActions: View {
                         UITextView.appearance().backgroundColor = .clear
                     }
                     .onTapGesture {
-                        newReviewText = ""
+                        if (newReviewText == "Write your review...") {
+                            newReviewText = ""
+                        }
+                       
                     }
                 
             }
@@ -286,10 +310,16 @@ struct GameUserActions: View {
             
             
             Button {
-                // submit rating
-                return
+                if (reviewed) {
+                    UserData.updateReview( gameId: name.id, review: newReviewText, rating: rating, spoiler: false)
+                } else {
+                    UserData.addReview(gameId: name.id, review: newReviewText, rating: rating, gameName: name.name, spoiler: false)
+                    reviewed = true
+                }
+                
+            
             } label: {
-                Text("Submit")
+                Text(reviewed ? "Update" : "Submit")
                     .bold()
                     .padding()
                     .background(.blue)

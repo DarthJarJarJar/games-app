@@ -193,6 +193,70 @@ class UserData: ObservableObject {
             }
     }
     
+    func updateReview( gameId: Int, review: String, rating: Int, spoiler: Bool) {
+        let docRef = db.collection("games").document(String(gameId)+self.Username)
+        docRef.updateData([
+            "review": review,
+            "rating": rating,
+            "spoiler": spoiler
+        ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("Document successfully updated")
+            }
+        }
+
+        
+
+    }
+    
+    func addReview(gameId: Int, review: String, rating: Int, gameName: String, spoiler: Bool) {
+        // add to review collection
+        db.collection("games").document(String(gameId)+self.Username).setData([
+            "gameId": gameId,
+            "gameName": gameName,
+            "rating": rating,
+            "review": review,
+            "reviewAt": Int(Date().timeIntervalSince1970),
+            "reviewBy": self.Username,
+            "reviewerName": self.Username.lowercased(),
+            "spoiler": spoiler
+        ]) { err in
+            if let err = err {
+                print("Error writing document: \(err)")
+            } else {
+                print("Document successfully written!")
+            }
+        }
+        
+        // add to profile
+        db.collection("users").whereField("displayName", isEqualTo: self.Username)
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        let docId = document.documentID
+                        let ref = self.db.collection("users").document(docId)
+
+                        
+                        ref.updateData([
+                            "ratings":FieldValue.arrayUnion([[
+                                "id": gameId,
+                                "rating": rating,
+                            ]])
+                        ])
+                        print("added")
+                        
+                    }
+                }
+            }
+        
+        
+        
+    }
+    
     func removeGameFromBacklog(gameId: Int) {
         db.collection("users").whereField("displayName", isEqualTo: self.Username)
             .getDocuments() { (querySnapshot, err) in
