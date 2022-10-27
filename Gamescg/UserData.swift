@@ -194,9 +194,17 @@ class UserData: ObservableObject {
     }
     
     func updateReview( gameId: Int, review: String, rating: Int, spoiler: Bool) {
+        
+        var reviewText = review
+        
+        if (review == "Write your review...") {
+            reviewText = ""
+        }
+        
+        // update in the games collection
         let docRef = db.collection("games").document(String(gameId)+self.Username)
         docRef.updateData([
-            "review": review,
+            "review": reviewText,
             "rating": rating,
             "spoiler": spoiler
         ]) { err in
@@ -206,19 +214,58 @@ class UserData: ObservableObject {
                 print("Document successfully updated")
             }
         }
+        
+        // update in the users collection
+        let newReview: Rating = Rating(id: gameId, rating: rating)
+        for rating in Ratings {
+            if (rating["id"] == newReview.id) {
+                Ratings.remove(at: Ratings.firstIndex(of: rating)!)
+            }
+        }
+
+        let newRatingDict = ["id" : newReview.id, "rating" : newReview.rating]
+        Ratings.append(newRatingDict)
+        
+        db.collection("users").whereField("displayName", isEqualTo: self.Username)
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        let docId = document.documentID
+                        let ref = self.db.collection("users").document(docId)
+
+                        
+                        ref.updateData([
+                            "ratings": self.Ratings
+                        ])
+                        print("added")
+                        
+                    }
+                }
+            }
+
+        
 
         
 
     }
     
     func addReview(gameId: Int, review: String, rating: Int, gameName: String, spoiler: Bool) {
+        
+        var reviewText = review
+        
+        if (review == "Write your review...") {
+            reviewText = ""
+        }
+        
         // add to review collection
         db.collection("games").document(String(gameId)+self.Username).setData([
             "gameId": gameId,
             "gameName": gameName,
             "rating": rating,
-            "review": review,
-            "reviewAt": Int(Date().timeIntervalSince1970),
+            "review": reviewText,
+            "reviewAt": Int(NSDate().timeIntervalSince1970)*1000,
             "reviewBy": self.Username,
             "reviewerName": self.Username.lowercased(),
             "spoiler": spoiler
@@ -329,7 +376,7 @@ class UserData: ObservableObject {
                         guard let url = URL(string: "https://api.igdb.com/v4/games/") else { fatalError("Missing URL") }
                         
                         var requestHeader = URLRequest.init(url: url )
-                        requestHeader.httpBody = "fields name, involved_companies.company.name, genres.name, first_release_date, screenshots.image_id, cover.image_id, platforms.abbreviation, summary; sort follows desc; where rating != null & follows != null & id = \(queryString);".data(using: .utf8, allowLossyConversion: false)
+                        requestHeader.httpBody = "fields name, involved_companies.company.name, genres.name, first_release_date, screenshots.image_id, cover.image_id, platforms.abbreviation, summary; sort follows desc; where rating != null & follows != null & id = \(queryString); limit 500;".data(using: .utf8, allowLossyConversion: false)
                         requestHeader.httpMethod = "POST"
                         requestHeader.setValue("o5xvtlqq670n8hhzz05rvwpbr7hjt4", forHTTPHeaderField: "Client-ID")
                         requestHeader.setValue("Bearer eusymeo73nswru9jiajpm2oij93hdb", forHTTPHeaderField: "Authorization")

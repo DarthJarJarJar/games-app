@@ -271,7 +271,7 @@ struct GameUserActions: View {
                 .frame(alignment: .leading)
                 .padding()
             
-            StarRating(rating: $rating , disabled: UserData.getRatingOfGame(id: name.id) != 0 , maximumRating: 10)
+            StarRating(rating: $rating  , maximumRating: 10)
                 .padding()
                 .onAppear {
                     rating = UserData.getRatingOfGame(id: name.id  )
